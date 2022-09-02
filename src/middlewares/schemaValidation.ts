@@ -6,7 +6,7 @@ function schemaValidation(schema: Schema) {
     const validate = schema.validate(req.body, { abortEarly: false })
     if (validate.error) {
       const message: string = validate.error.details.map(value => value.message).join('\n');
-      throw { type: 'Wrong Body', message };
+      throw { type: 'Unprocessable', message };
     }
 
     next();
