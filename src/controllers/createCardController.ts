@@ -27,10 +27,8 @@ async function createCard(req: Request, res: Response) {
     cardType: TransactionTypes,
   } = req.body;
   const companyId: number = res.locals.company.id;
-
   const employee: Employee = await validateEmployee(body.employeeId, companyId);
   await validateCardType(body.cardType, body.employeeId);
-
   const generatedCard = {
     number: generateCardNumber(),
     cardholderName: generateCardHolderName(employee.fullName),
@@ -38,7 +36,6 @@ async function createCard(req: Request, res: Response) {
     expirationDate: generateExpirationDate(),
     type: body.cardType
   };
-
   const insertData: CardInsertData = {
     employeeId: body.employeeId,
     number: generatedCard.number,
@@ -50,7 +47,6 @@ async function createCard(req: Request, res: Response) {
     type: body.cardType
   }
   const cardId: number = await insert(insertData);
-
   return sendResponse({ type: 'Created', message: {cardId, ...generatedCard} }, res)
 }
 

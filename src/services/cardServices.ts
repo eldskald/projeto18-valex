@@ -37,9 +37,10 @@ export function encryptCVC(code: string): string {
   return cryptr.encrypt(code);
 }
 
-export function confirmCVC(code: string, encryptedCode: string) {
+export function confirmCVC(code: string, encryptedCode: string): null {
   const decryptedCode = cryptr.decrypt(encryptedCode);
   if (decryptedCode != code) throw { type: 'Unauthorized', message: 'Wrong security code' };
+  return null;
 }
 
 export async function encryptPassword(password: string): Promise<string> {
@@ -49,5 +50,12 @@ export async function encryptPassword(password: string): Promise<string> {
 export async function confirmPassword(password: string, passwordHash: string): Promise<null> {
   const result: boolean = await bcrypt.compare(password, passwordHash);
   if (!result) throw { type: 'Unauthorized', message: 'Wrong password' };
+  return null;
+}
+
+export function checkExpirationDate(date: string): null {
+  const today: string = dayjs().format('YY/MM');
+  const reformattedDate: string = date.split('/').reverse().join('/');
+  if (today > reformattedDate) throw { type: 'Not Allowed', message: 'Card expired' };
   return null;
 }

@@ -17,15 +17,12 @@ async function activateCard(req: Request, res: Response) {
     cvc: string,
     password: string
   } = req.body;
-
   const card: Card = await validateCard(body.cardId, body.cvc);
   const passwordHash = await encryptPassword(body.password);
-
   const updateData: CardUpdateData = {
     password: passwordHash
   };
   await update(card.id, updateData);
-
   return sendResponse({ type: 'Updated', message: 'Successfully activated' }, res);
 }
 

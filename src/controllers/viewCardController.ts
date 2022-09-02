@@ -28,7 +28,6 @@ function calculateBalance(
 async function viewCard(req: Request, res: Response) {
   const cardId: number = await validateParam(req.params.id);
   await validateCard(cardId);
-
   const recharges: rechargeRepo.Recharge[] = await rechargeRepo.findByCardId(cardId);
   const payments: paymentRepo.Payment[] = await paymentRepo.findByCardId(cardId);
   const data = {
@@ -36,7 +35,6 @@ async function viewCard(req: Request, res: Response) {
     transactions: payments,
     recharges
   };
-
   return sendResponse({ type: 'Ok', message: data }, res);
 }
 
