@@ -51,7 +51,7 @@ async function createCard(req: Request, res: Response) {
   }
   const cardId: number = await insert(insertData);
 
-  return sendResponse({ type: 'Created', message: {...generatedCard, cardId} }, res)
+  return sendResponse({ type: 'Created', message: {cardId, ...generatedCard} }, res)
 }
 
 export default createCard;
